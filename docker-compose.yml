@@ -1,0 +1,136 @@
+# Prometheus + Grafana Observability Stack
+# ============================================================
+# Boot the full three-pillars stack with one command:
+#
+#   docker compose up -d
+#
+# Endpoints:
+#   Grafana       http://localhost:3000   (admin / admin)
+#   Prometheus    http://localhost:9090
+#   Alertmanager  http://localhost:9093
+#   Loki          http://localhost:3100
+#   Tempo (OTLP)  http://localhost:4318   (also gRPC :4317)
+#
+# The official images ship with sane defaults (Prometheus even
+# scrapes itself out of the box), so this file is runnable as-is.
+# To observe YOUR app, mount your own configs:
+#
+#   prometheus:
+#     volumes:
+#       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+#       - ./alerts.yml:/etc/prometheus/alerts.yml:ro
+#     command:
+#       - '--config.file=/etc/prometheus/prometheus.yml'
+#       - '--rule.files=/etc/prometheus/alerts.yml'
+#       - '--storage.tsdb.retention.time=15d'
+#
+# Add your app as a scrape target in prometheus.yml, point it at
+# Tempo via OTLP (http://tempo:4318), and ship logs to Loki
+# (http://loki:3100). Then wire all three as data sources in
+# Grafana: one dashboard, correlated by time range + trace ID.
+# ============================================================
+
+name: observability
+
+services:
+  prometheus:
+    image: prom/prometheus:v3.4.1
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    command:
+      # Keep 15 days of metrics locally; tune per disk budget.
+      - '--storage.tsdb.retention.time=15d'
+      # Sample every 15s globally; override per-job for hot targets.
+      - '--storage.tsdb.retention.size=10GB'
+    volumes:
+      - prometheus-data:/prometheus
+    networks:
+      - monitor
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - alertmanager-data:/alertmanager
+    command:
+      # Mount your routing tree when ready:
+      # - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      # - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - monitor
+
+  grafana:
+    image: grafana/grafana:12.1.0
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin   # change me in prod
+      # Pre-wire the three data sources so Grafana opens correlated:
+      - GF_INSTALL_PLUGINS=grafana-lokiexplore-app
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - loki
+      - tempo
+    networks:
+      - monitor
+
+  loki:
+    image: grafana/loki:3.5.2
+    container_name: loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - loki-data:/loki
+    networks:
+      - monitor
+
+  promtail:
+    image: grafana/promtail:3.5.2
+    container_name: promtail
+    restart: unless-stopped
+    volumes:
+      - /var/log:/var/log:ro
+      # Mount your promtail config to label logs by app/env:
+      # - ./promtail.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/docker-config.yaml
+    depends_on:
+      - loki
+    networks:
+      - monitor
+
+  tempo:
+    image: grafana/tempo:2.8.1
+    container_name: tempo
+    restart: unless-stopped
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    command: -config.file=/etc/tempo.yaml
+    volumes:
+      - tempo-data:/tmp/tempo
+    networks:
+      - monitor
+
+volumes:
+  prometheus-data:
+  alertmanager-data:
+  grafana-data:
+  loki-data:
+  tempo-data:
+
+networks:
+  monitor:
+    driver: bridge

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#57606a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="690" rx="12" fill="#f6f8fa"/>
+
+  <text x="600" y="40" text-anchor="middle" font-size="23" font-weight="800" fill="#1f2328">Prometheus + Grafana Observability Stack</text>
+  <text x="600" y="64" text-anchor="middle" font-size="13" fill="#57606a">metrics · logs · traces — one pane of glass</text>
+
+  <!-- section headers -->
+  <text x="30" y="98" font-size="12" font-weight="700" letter-spacing="2" fill="#57606a">1 · INSTRUMENT</text>
+  <text x="340" y="98" font-size="12" font-weight="700" letter-spacing="2" fill="#57606a">2 · COLLECT &amp; STORE</text>
+  <text x="650" y="98" font-size="12" font-weight="700" letter-spacing="2" fill="#57606a">3 · VISUALIZE &amp; ALERT</text>
+  <text x="940" y="98" font-size="12" font-weight="700" letter-spacing="2" fill="#57606a">4 · RESPOND</text>
+
+  <!-- column 1 -->
+  <g>
+    <rect x="30" y="116" width="220" height="92" rx="10" fill="#ffffff" stroke="#0969da" stroke-width="2.5"/>
+    <text x="140" y="152" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Your App</text>
+    <text x="140" y="175" text-anchor="middle" font-size="12.5" fill="#57606a">metrics · logs · traces</text>
+  </g>
+  <g>
+    <rect x="30" y="236" width="220" height="92" rx="10" fill="#ffffff" stroke="#6e7781" stroke-width="2.5"/>
+    <text x="140" y="272" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">node-exporter</text>
+    <text x="140" y="295" text-anchor="middle" font-size="12.5" fill="#57606a">host metrics · :9100</text>
+  </g>
+
+  <!-- column 2 -->
+  <g>
+    <rect x="340" y="116" width="220" height="92" rx="10" fill="#ffffff" stroke="#E6522C" stroke-width="2.5"/>
+    <text x="450" y="152" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Prometheus</text>
+    <text x="450" y="175" text-anchor="middle" font-size="12.5" fill="#57606a">scrape · TSDB · :9090</text>
+  </g>
+  <g>
+    <rect x="340" y="236" width="220" height="92" rx="10" fill="#ffffff" stroke="#3b3b3b" stroke-width="2.5"/>
+    <text x="450" y="272" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Promtail</text>
+    <text x="450" y="295" text-anchor="middle" font-size="12.5" fill="#57606a">tails logs · pushes to Loki</text>
+  </g>
+  <g>
+    <rect x="340" y="356" width="220" height="92" rx="10" fill="#ffffff" stroke="#3b3b3b" stroke-width="2.5"/>
+    <text x="450" y="392" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Loki</text>
+    <text x="450" y="415" text-anchor="middle" font-size="12.5" fill="#57606a">log storage · :3100</text>
+  </g>
+  <g>
+    <rect x="340" y="476" width="220" height="92" rx="10" fill="#ffffff" stroke="#0e9f6e" stroke-width="2.5"/>
+    <text x="450" y="512" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Tempo</text>
+    <text x="450" y="535" text-anchor="middle" font-size="12.5" fill="#57606a">trace storage · OTLP :4318</text>
+  </g>
+
+  <!-- column 3 -->
+  <g>
+    <rect x="650" y="176" width="220" height="152" rx="10" fill="#ffffff" stroke="#F46800" stroke-width="2.5"/>
+    <text x="760" y="216" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Grafana</text>
+    <text x="760" y="240" text-anchor="middle" font-size="12.5" fill="#57606a">:3000 · dashboards</text>
+    <text x="760" y="262" text-anchor="middle" font-size="12.5" fill="#57606a">PromQL · LogQL · TraceQL</text>
+    <text x="760" y="286" text-anchor="middle" font-size="12.5" fill="#57606a">one pane of glass 🔍</text>
+  </g>
+  <g>
+    <rect x="650" y="356" width="220" height="92" rx="10" fill="#ffffff" stroke="#d1242f" stroke-width="2.5"/>
+    <text x="760" y="392" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">Alertmanager</text>
+    <text x="760" y="415" text-anchor="middle" font-size="12.5" fill="#57606a">dedupe · group · route · :9093</text>
+  </g>
+
+  <!-- column 4 -->
+  <g>
+    <rect x="940" y="176" width="220" height="92" rx="10" fill="#ffffff" stroke="#4A154B" stroke-width="2.5"/>
+    <text x="1050" y="212" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">On-call</text>
+    <text x="1050" y="235" text-anchor="middle" font-size="12.5" fill="#57606a">Slack · PagerDuty · email 📟</text>
+  </g>
+
+  <!-- arrows -->
+  <line x1="250" y1="150" x2="340" y2="150" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="295" y="140" text-anchor="middle" font-size="11.5" fill="#57606a">scrape /metrics</text>
+
+  <line x1="250" y1="178" x2="340" y2="252" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="296" y="206" text-anchor="middle" font-size="11.5" fill="#57606a">log files</text>
+
+  <polyline points="250,166 300,166 300,522 340,522" fill="none" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="290" y="380" text-anchor="middle" font-size="11.5" fill="#57606a" transform="rotate(-90 290 380)">OTLP spans :4318</text>
+
+  <line x1="250" y1="292" x2="340" y2="190" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="292" y="254" text-anchor="middle" font-size="11.5" fill="#57606a">scrape :9100</text>
+
+  <line x1="450" y1="328" x2="450" y2="356" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="470" y="347" font-size="11.5" fill="#57606a">push</text>
+
+  <line x1="560" y1="150" x2="650" y2="220" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="606" y="176" text-anchor="middle" font-size="11.5" fill="#57606a">PromQL</text>
+
+  <line x1="560" y1="402" x2="650" y2="290" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="614" y="338" text-anchor="middle" font-size="11.5" fill="#57606a">LogQL</text>
+
+  <line x1="560" y1="510" x2="650" y2="300" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="616" y="398" text-anchor="middle" font-size="11.5" fill="#57606a">TraceQL</text>
+
+  <polyline points="600,208 600,380 650,380" fill="none" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="592" y="300" text-anchor="middle" font-size="11.5" fill="#57606a" transform="rotate(-90 592 300)">alerts</text>
+
+  <polyline points="870,402 905,402 905,222 940,222" fill="none" stroke="#57606a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="897" y="320" text-anchor="middle" font-size="11.5" fill="#57606a" transform="rotate(-90 897 320)">page 📟</text>
+
+  <!-- bottom note -->
+  <rect x="30" y="600" width="1140" height="64" rx="10" fill="#fff8e6" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="600" y="627" text-anchor="middle" font-size="13.5" fill="#1f2328">💡 Correlation superpower: in Grafana, a metrics spike links to the exact trace (exemplars),</text>
+  <text x="600" y="649" text-anchor="middle" font-size="13.5" fill="#1f2328">and the trace ID jumps straight to the matching logs. One timeline — three pillars.</text>
+</svg>
